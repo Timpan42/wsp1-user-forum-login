@@ -8,6 +8,8 @@ const indexRouter = require('./routes/index');
 
 const app = express();
 
+var session = require('express-session')
+
 nunjucks.configure('views', {
     autoescape: true,
     express: app,
@@ -19,6 +21,12 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+app.use(session({
+    secret: 'keyboard cat',
+    resave: false,
+    saveUninitialized: true,
+}))
+  
 app.use('/', indexRouter);
 
 module.exports = app;

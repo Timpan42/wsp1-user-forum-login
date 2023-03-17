@@ -1,0 +1,230 @@
+@import url("https://fonts.googleapis.com/css2?family=Nunito&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Kanit&display=swap");
+/* http://meyerweb.com/eric/tools/css/reset/
+   v5.0.1 | 20191019
+   License: none (public domain)
+*/
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, menu, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed,
+figure, figcaption, footer, header, hgroup,
+main, menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+  font: inherit;
+  vertical-align: baseline;
+}
+
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure,
+footer, header, hgroup, main, menu, nav, section {
+  display: block;
+}
+
+/* HTML5 hidden-attribute fix for newer browsers */
+*[hidden] {
+  display: none;
+}
+
+body {
+  line-height: 1;
+}
+
+menu, ol, ul {
+  list-style: none;
+}
+
+blockquote, q {
+  quotes: none;
+}
+
+blockquote:before, blockquote:after,
+q:before, q:after {
+  content: "";
+  content: none;
+}
+
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+body {
+  background-color: #e5e5e5;
+  font-family: "Nunito", sans-serif;
+}
+
+.navbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #3a6f88;
+  color: #f5f5f5;
+  font-size: 1.5rem;
+  min-height: 4rem;
+}
+.navbar__button {
+  background-color: transparent;
+  color: aliceblue;
+}
+@media (min-width: 600px) {
+  .navbar__button {
+    display: none;
+  }
+}
+.navbar img {
+  float: left;
+}
+.navbar .container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.navbar a {
+  text-decoration: none;
+  color: aliceblue;
+}
+@media (max-width: 599px) {
+  .navbar__collapse {
+    display: none;
+  }
+}
+.navbar__collapse > ul {
+  display: flex;
+  gap: 1rem;
+  list-style: none;
+}
+.navbar__collapse--show {
+  display: block;
+  width: 100%;
+}
+.navbar__collapse--show > ul {
+  flex-direction: column;
+  padding: 0;
+}
+
+.hero {
+  display: grid;
+  grid-template-areas: "stack";
+  justify-content: stretch;
+  margin-top: 10px;
+}
+.hero > * {
+  grid-area: stack;
+}
+.hero h1 {
+  color: aliceblue;
+  place-self: center;
+}
+
+.filter {
+  filter: brightness(50%);
+}
+
+.flow > * + * {
+  margin-top: var(--flow-space, 1rem);
+}
+
+footer {
+  background-color: black;
+  color: aliceblue;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+}
+
+.show {
+  display: flex;
+}
+
+.hide {
+  display: none;
+}
+
+a {
+  text-decoration: none;
+}
+
+a:hover {
+  background-color: rgb(86, 86, 86);
+}
+
+h2 h3 {
+  margin-left: 15%;
+  margin-right: 15%;
+}
+
+.container {
+  width: min(80ch, 100vw - 2rem);
+  margin-inline: auto;
+}
+
+.centered {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: #e5e5e5;
+}
+
+.new {
+  display: flex;
+  flex-direction: column;
+  margin-top: 20px;
+}
+
+.newbutton {
+  margin-top: 10px;
+}
+
+.forum {
+  margin-top: 20px;
+  background-color: #4C2C72;
+  padding: 1rem;
+}
+
+.post {
+  margin-bottom: 20px;
+  list-style: none;
+  background-color: #653A97;
+  padding: 10px;
+  border-radius: 10px;
+}
+.post h1 {
+  color: #f5f5f5;
+  margin-bottom: 5px;
+  padding: 5px;
+  font-size: 2rem;
+}
+.post a {
+  color: rgb(240, 240, 240);
+  text-decoration: none;
+}
+
+.content {
+  border-radius: 5px;
+  background-color: #e5e5e5;
+  padding: 5px;
+  margin: 1rem;
+}
+.content h2 {
+  font-size: 1.5rem;
+}
+.content p {
+  margin-top: 10px;
+}
+.content a {
+  color: rgb(21, 3, 128);
+}
+
+/*# sourceMappingURL=style.css.map */
