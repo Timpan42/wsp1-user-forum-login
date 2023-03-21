@@ -18,3 +18,6 @@ Ska sätta i hop forumet från forum delen vi har gjort och sak fixa css.
 
 ### vad hindra mig
 Har inte kommit till ett läge som något hindra mig.
+
+## Gjorde i dag 
+Forumet funkar och fixade css 
