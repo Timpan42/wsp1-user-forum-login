@@ -29,12 +29,14 @@ router.post('/login', async function (req, res, next) {
 
     const [user] = await promisePool.query('SELECT * FROM tf03users WHERE name = ?', [username]);
 
-    bcrypt.compare(password, user[0].password, function (err, result) {
+    bcrypt.compare(password, user[0].password, async function (err, result) {
         //logga in eller nåt
-
         if (result === true) {
+            id = user[0].id
             req.session.username = username;
+            req.session.userId = id;
             req.session.login = 1;
+            console.log(req.session.userId)
             return res.redirect('/profile');
         }
         else {
@@ -42,7 +44,7 @@ router.post('/login', async function (req, res, next) {
         }
     })
 });
-
+// Kryptera lössenordet  
 router.get('/crypt/:password', async function (req, res, next) {
     const password = req.params.password
     bcrypt.hash(password, 10, function (err, hash) {
@@ -90,7 +92,7 @@ router.post('/register', async function (req, res, next) {
 /* GET profile page. */
 router.get('/profile', async function (req, res, next) {
     if (req.session.login == 1) {
-        res.render('profile.njk', { title: 'Profile', name: req.session.username })
+        res.render('profile.njk', { title: 'Profile', name: req.session.username, id: req.session.userId})
     }
     else {
         return res.status(401).send('Access denied')
@@ -122,13 +124,36 @@ router.post('/delete', async function (req, res, next) {
         res.redirect('/')
     }
 });
-
+ // GET forum page
 router.get('/forum', async function (req, res, next) {
     const [rows] = await promisePool.query("SELECT tf03forum.*, tf03users.name FROM tf03forum JOIN tf03users ON tf03forum.authorId = tf03users.id");
     res.render('forum.njk', {
         rows: rows,
         title: 'Forum',
     });
+});
+
+// GET new (sidan som man gör ett nytt inlägg)  
+router.get('/new', async function (req, res, next) {
+    const [users] = await promisePool.query('SELECT * FROM tf03users');
+    res.render('new.njk', {
+        title: 'Nytt inlägg',
+        users,
+    });
+});
+// her in inlägget från användaren till databasen 
+router.post('/new', async function (req, res, next) {
+    const { author, title, content } = req.body;
+
+    let user = await promisePool.query('SELECT * FROM tf03users WHERE name = ?', [author]);
+    if (!user) {
+        user = await promisePool.query('INSERT INTO tf03users (name) VALUES (?)', [author]);
+    }
+
+    const userId = user.insertId || user[0][0].id;
+
+    const [rows] = await promisePool.query('INSERT INTO tf03forum (authorId, title, content) VALUES (?, ?, ?)', [userId, title, content]);
+    res.redirect('/forum');
 });
 
 
