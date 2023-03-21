@@ -1,0 +1,21 @@
+{% extends "layout.njk" %}
+{% block content %}
+<main class="container flow">
+  <section>
+    <ul class="forum">
+      {% for row in rows %}
+      <li class="post">
+          <h1><a href="/post/{{ row.id }}">{{ row.title }}</a></h1>
+        </div>
+        <div class="content">
+          <h2>Author: <a href="/user/{{ row.id }}">{{ row.name }}</a></h2>
+          <p>Posted: {{ row.createdAt }}</p>
+          <p>{{ row.content }}</p>
+          <p>Post: {{ row.id }}</p>
+        </div>
+        {% endfor %}
+    </ul>
+  </section>
+</main>
+
+{% endblock %}
