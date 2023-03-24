@@ -21,3 +21,19 @@ Har inte kommit till ett läge som något hindra mig.
 
 ## Gjorde i dag 
 Forumet funkar och fixade css 
+
+## vecka 12, 24-03-2023
+### vad gjorde jag sist 
+Jag gjorde forumsidan så man kan komma åt allas post som finns i databasen samt kuna skapa en egna post.
+Fixade också sass så att css se fint ut. 
+
+### vad gör jag idag 
+Ska fixa validerings dellen så att sidan är mer säker och att anävndaren inte få göra vad dem vill. 
+Om klar med det så klan jag försöka göra tester.
+Om jag hinner det då kan man göra sidan snyggare. 
+
+### vad hindra mig
+Det som skulle kuna hindra mig är att göra rätt på validerings delen.
+
+## Gjorde i dag 
+
