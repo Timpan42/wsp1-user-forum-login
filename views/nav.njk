@@ -6,6 +6,21 @@
     </button>
     <div class="navbar__collapse">
         <ul class="menu">
+            {% if expr %}
+            <li>
+                <a href="/">Home</a>
+            </li>
+            <li>
+                <a href="/forum">Forum</a>
+            </li>
+            <li>
+                <a href="/profile">Profile</a>
+            </li>
+            <li>
+                <a href="/new">Post</a>
+            </li>
+
+            {% else %}
             <li>
                 <a href="/">Home</a>
             </li>
@@ -18,12 +33,8 @@
             <li>
                 <a href="/register">Register</a>
             </li>
-            <li>
-                <a href="/profile">Profile</a>
-            </li>
-            <li>
-                <a href="/new">Post</a>
-            </li>
+            
+            {% endif %}
         </ul>
     </div>
 </div>

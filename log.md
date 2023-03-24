@@ -34,6 +34,8 @@ Om jag hinner det då kan man göra sidan snyggare.
 
 ### vad hindra mig
 Det som skulle kuna hindra mig är att göra rätt på validerings delen.
+Hade några svårigheter att sätta igång i valitadorn utan att den skulle crasha.
+Fixade det dock till slut, men den behövers förbätras 
 
 ## Gjorde i dag 
-
+Jag fixa valideringen på forument och fixade att man inte kunde post om man var inlogad samt naven ser anurlunda ut om man är inlågad eller inte. 

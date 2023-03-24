@@ -10,7 +10,10 @@ const promisePool = pool.promise();
 
 /* GET home page. */
 router.get('/', async function (req, res) {
-    res.render('index.njk', {titel:'Home'})
+    res.render('index.njk', {
+        titel:'Home',
+        user: req.session.login || 0
+    });
 });
 
 /* GET login page. */
