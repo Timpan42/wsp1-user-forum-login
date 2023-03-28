@@ -19,7 +19,7 @@ Ska sätta i hop forumet från forum delen vi har gjort och sak fixa css.
 ### vad hindra mig
 Har inte kommit till ett läge som något hindra mig.
 
-## Gjorde i dag 
+### Gjorde i dag 
 Forumet funkar och fixade css 
 
 ## vecka 12, 24-03-2023
@@ -37,5 +37,17 @@ Det som skulle kuna hindra mig är att göra rätt på validerings delen.
 Hade några svårigheter att sätta igång i valitadorn utan att den skulle crasha.
 Fixade det dock till slut, men den behövers förbätras 
 
-## Gjorde i dag 
+### Gjorde i dag 
 Jag fixa valideringen på forument och fixade att man inte kunde post om man var inlogad samt naven ser anurlunda ut om man är inlågad eller inte. 
+
+## vecka 12, 24-03-2023
+### vad gjorde jag sist 
+Jag fixa gundlägande validation på forumet och att man inte kunde posta om man var inlogad. Fixade naven så den ändrades när man var inlogad dock funkade inte det. 
+
+### vad gör jag idag 
+Ska fixa naven, förbättra validationen så den funka på ett bättre sätt. Fixa informationen på sidan. 
+
+### vad hindra mig
+
+
+### Gjorde i dag 

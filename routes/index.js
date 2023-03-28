@@ -107,7 +107,12 @@ router.post('/register', async function (req, res, next) {
 /* GET profile page. */
 router.get('/profile', async function (req, res, next) {
     if (req.session.login == 1) {
-        res.render('profile.njk', { title: 'Profile', name: req.session.username, id: req.session.userId})
+        res.render('profile.njk',{
+        title: 'Profile',
+        name: req.session.username,
+        id: req.session.userId,
+        user: req.session.login || 0
+        })
     }
     else {
         return res.status(401).send('Access denied')
@@ -129,7 +134,10 @@ router.get('/logout', async function (req, res, next) {
 /* GET delete page. */
 router.get('/delete', async function (req, res, next) {
 
-    res.render('delete.njk', { title: 'Delete' });
+    res.render('delete.njk', {
+        title: 'Delete',
+        user: req.session.login || 0
+     });
 
 });
 /* fråga om man kan ta bort användaren från databasen */
@@ -147,6 +155,7 @@ router.get('/forum', async function (req, res, next) {
     res.render('forum.njk', {
         rows: rows,
         title: 'Forum',
+        user: req.session.login || 0
     });
 });
 
@@ -156,7 +165,8 @@ router.get('/new', async function (req, res, next) {
         const [users] = await promisePool.query('SELECT * FROM tf03users');
     res.render('new.njk', {
         title: 'Nytt inlägg',
-        users,
+        user: req.session.login || 0,
+        userName: req.session.username
     });
     }
     else {
