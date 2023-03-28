@@ -31,28 +31,29 @@ router.post('/login', async function (req, res, next) {
         return res.send('Password is Required')
     }
 
-    if(username && username.length <= 3){
-        return res.send('Username must be at least 3 characters')
-    }
-    if(password && password.length <= 3){
-        return res.send('Password must be at least 3 characters')
-    }
 
     const [user] = await promisePool.query('SELECT * FROM tf03users WHERE name = ?', [username]);
 
-    bcrypt.compare(password, user[0].password, async function (err, result) {
-        //logga in eller nåt
-        if (result === true) {
-            id = user[0].id
-            req.session.username = username;
-            req.session.userId = id;
-            req.session.login = 1;
-            return res.redirect('/profile');
-        }
-        else {
-            return res.send("Invalid username or password")
-        }
-    })
+if (user.length > 0) {
+        bcrypt.compare(password, user[0].password, function (err, result) {
+            //logga in eller nåt
+    
+            if (result === true) {
+                // return res.send('Welcome')
+                req.session.username = username;
+                req.session.login = true;
+                req.session.userId = user[0].id;
+                return res.redirect('/profile');
+            }
+    
+            else {
+                return res.redirect('/login')
+            }
+    
+        })
+    } else {
+        return res.redirect('/login')
+    }
 });
 // Kryptera lössenordet  
 router.get('/crypt/:password', async function (req, res, next) {
@@ -73,7 +74,6 @@ router.post('/register', async function (req, res, next) {
 
     if (username === "") {
         return res.send('Username is Required')
-
     }
     else if (password.length === 0) {
         return res.send('Password is Required')
@@ -177,13 +177,13 @@ router.get('/new', async function (req, res, next) {
 // her in inlägget från användaren till databasen 
 router.post('/new', async function (req, res, next) {
     const { title, content } = req.body;
-    let errors = [];
+    let errors = []
     
-    if(title && content.length <= 1){
-        errors.push('Title must be at least 1 characters')
+    if(!title || content.length <= 1){
+        errors.push('Title must be at least 2 characters')
     }
-    if(content && content.length <= 1){
-        errors.push('Content must be at least 1 characters')
+    if(!content || content.length <= 1){
+        errors.push('Content must be at least 2 characters')
     }
     // validatorn 
     if (errors.length === 0){
@@ -195,16 +195,17 @@ router.post('/new', async function (req, res, next) {
         }
         if(title)sanTitle = sanitize(title)
         if(content)sanContent = sanitize(content)
+
+        let user = await promisePool.query('SELECT * FROM tf03users WHERE name = ?', [req.session.username]);
+        if (!user) {
+            user = await promisePool.query('INSERT INTO tf03users (name) VALUES (?)', [req.session.username]);
+            const userId = user.insertId || user[0][0].id;
+            const [rows] = await promisePool.query('INSERT INTO tf03forum (authorId, title, content) VALUES (?, ?, ?)', [userId, sanTitle, sanContent]);
+            res.redirect('/forum');
     }
-
-    let user = await promisePool.query('SELECT * FROM tf03users WHERE name = ?', [req.session.username]);
-    if (!user) {
-        user = await promisePool.query('INSERT INTO tf03users (name) VALUES (?)', [req.session.username]);
+    } else{
+        res.send(errors)
     }
-
-    const userId = user.insertId || user[0][0].id;
-
-    const [rows] = await promisePool.query('INSERT INTO tf03forum (authorId, title, content) VALUES (?, ?, ?)', [userId, sanTitle, sanContent]);
     res.redirect('/forum');
 });
 
