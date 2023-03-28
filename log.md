@@ -48,6 +48,7 @@ Jag fixa gundlägande validation på forumet och att man inte kunde posta om man
 Ska fixa naven, förbättra validationen så den funka på ett bättre sätt. Fixa informationen på sidan. 
 
 ### vad hindra mig
-
+Har problem med validator dellen och skicka saker till databasen nu.
 
 ### Gjorde i dag 
+Fixade naven. validatorn för att skapa en post är mer säker dock kan jag inte skicka saker till tabellen forum. 
