@@ -11,33 +11,33 @@ const promisePool = pool.promise();
 /* GET home page. */
 router.get('/', async function (req, res) {
     res.render('index.njk', {
-        titel:'Home',
+        titel: 'Home',
         user: req.session.login || 0
     });
 });
 
 /* GET login page. */
 router.get('/login', async function (req, res, next) {
-    res.render('login.njk', {titel: 'Login'})
+    res.render('login.njk', { titel: 'Login' })
 });
 /* Fråga om man får loga in. */
 router.post('/login', async function (req, res, next) {
     const { username, password } = req.body;
-
+    errors = [];
     if (username.length == 0) {
-        return res.send('Username is Required')
+        errors.push('Username is Required')
     }
     if (password.length == 0) {
-        return res.send('Password is Required')
+        errors.push('Password is Required')
     }
 
-
+    if(errors.length === 0){
     const [user] = await promisePool.query('SELECT * FROM tf03users WHERE name = ?', [username]);
 
-if (user.length > 0) {
+    if (user.length > 0) {
         bcrypt.compare(password, user[0].password, function (err, result) {
             //logga in eller nåt
-    
+
             if (result === true) {
                 // return res.send('Welcome')
                 req.session.username = username;
@@ -45,15 +45,18 @@ if (user.length > 0) {
                 req.session.userId = user[0].id;
                 return res.redirect('/profile');
             }
-    
+
             else {
                 return res.redirect('/login')
             }
-    
+
         })
     } else {
         return res.redirect('/login')
     }
+} else {
+    res.send(errors)
+}
 });
 // Kryptera lössenordet  
 router.get('/crypt/:password', async function (req, res, next) {
@@ -71,27 +74,27 @@ router.get('/register', function (req, res, next) {
 /* Skapa ett konto i register. */
 router.post('/register', async function (req, res, next) {
     const { username, password, passwordConfirmation } = req.body;
+    let errors = [];
 
     if (username === "") {
-        return res.send('Username is Required')
+        errors.push('Username is Required')
     }
     else if (password.length === 0) {
-        return res.send('Password is Required')
+        errors.push('Password is Required')
     }
-    if(username && username.length <= 3){
-        return res.send('Username must be at least 3 characters')
+    if (username && username.length <= 3) {
+        errors.push('Username must be at least 3 characters')
     }
-    if(password && password.length <= 3){
-        return res.send('Password must be at least 3 characters')
+    if (password && password.length <= 7) {
+        errors.push('Password must be at least 8 characters')
     }
     else if (passwordConfirmation.length === 0) {
-        return res.send('Password is Required')
+        errors.push('Password is Required')
     }
     else if (password !== passwordConfirmation) {
-        return res.send('Passwords do not match')
+        errors.push('Passwords do not match')
     }
-    
-
+    if(errors.length === 0){
     const [user] = await promisePool.query('SELECT name FROM tf03users WHERE name = ?', [username]);
 
     if (user.length > 0) {
@@ -102,16 +105,19 @@ router.post('/register', async function (req, res, next) {
             res.redirect('/login')
         })
     }
+} else{
+    res.send(errors)
+}
 });
 
 /* GET profile page. */
 router.get('/profile', async function (req, res, next) {
     if (req.session.login == 1) {
-        res.render('profile.njk',{
-        title: 'Profile',
-        name: req.session.username,
-        id: req.session.userId,
-        user: req.session.login || 0
+        res.render('profile.njk', {
+            title: 'Profile',
+            name: req.session.username,
+            id: req.session.userId,
+            user: req.session.login || 0
         })
     }
     else {
@@ -128,7 +134,7 @@ router.get('/logout', async function (req, res, next) {
     res.render('logout.njk', { title: 'Logout' });
     req.session.login = 0;
     req.session.username = "";
-    req.session.userId = ""; 
+    req.session.userId = "";
 });
 
 /* GET delete page. */
@@ -137,7 +143,7 @@ router.get('/delete', async function (req, res, next) {
     res.render('delete.njk', {
         title: 'Delete',
         user: req.session.login || 0
-     });
+    });
 
 });
 /* fråga om man kan ta bort användaren från databasen */
@@ -149,7 +155,7 @@ router.post('/delete', async function (req, res, next) {
         res.redirect('/')
     }
 });
- // GET forum page
+// GET forum page
 router.get('/forum', async function (req, res, next) {
     const [rows] = await promisePool.query("SELECT tf03forum.*, tf03users.name FROM tf03forum JOIN tf03users ON tf03forum.authorId = tf03users.id");
     res.render('forum.njk', {
@@ -163,11 +169,11 @@ router.get('/forum', async function (req, res, next) {
 router.get('/new', async function (req, res, next) {
     if (req.session.login == 1) {
         const [users] = await promisePool.query('SELECT * FROM tf03users');
-    res.render('new.njk', {
-        title: 'Nytt inlägg',
-        user: req.session.login || 0,
-        userName: req.session.username
-    });
+        res.render('new.njk', {
+            title: 'Nytt inlägg',
+            user: req.session.login || 0,
+            userName: req.session.username
+        });
     }
     else {
         return res.status(401).send('Access denied')
@@ -178,30 +184,31 @@ router.get('/new', async function (req, res, next) {
 router.post('/new', async function (req, res, next) {
     const { title, content } = req.body;
     let errors = []
-    
-    if(!title || content.length <= 1){
+
+    if (!title || content.length <= 1) {
         errors.push('Title must be at least 2 characters')
     }
-    if(!content || content.length <= 1){
+    if (!content || content.length <= 1) {
         errors.push('Content must be at least 2 characters')
     }
     // validatorn 
-    if (errors.length === 0){
-        const sanitize = (str) =>{
+    if (errors.length === 0) {
+        const sanitize = (str) => {
             let temp = str.trim();
             temp = validator.stripLow(temp);
             temp = validator.escape(temp);
             return temp;
         }
-        
-        if(title){
+
+        if (title) {
             sanTitle = sanitize(title)
         }
-        if(content){sanContent = sanitize(content)
+        if (content) {
+            sanContent = sanitize(content)
         }
-            const [rows] = await promisePool.query('INSERT INTO tf03forum (authorId, title, content) VALUES (?, ?, ?)', [req.session.userId, sanTitle, sanContent]);
-            res.redirect('/forum');
-    } else{
+        const [rows] = await promisePool.query('INSERT INTO tf03forum (authorId, title, content) VALUES (?, ?, ?)', [req.session.userId, sanTitle, sanContent]);
+        res.redirect('/forum');
+    } else {
         res.send(errors)
     }
 });
