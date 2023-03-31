@@ -1,17 +1,18 @@
 {% extends "layout.njk" %}
-{% block  content %}
+{% block content %}
 <main class="container mt-3">
     <h1>{{ title }}</h1>
     <form action="/register" method="POST">
+        <div class="inputStile">
+            <label for="username">Username</label>
+            <input type="text" name="username">
+            <label for="password">Password</label>
+            <input type="password" name="password">
+            <label for="passwordConfirmation">password Confirmation</label>
+            <input type="password" name="passwordConfirmation">
 
-    <label for="username">Username</label>
-        <input type="text" name="username">
-    <label for="password">Password</label>
-        <input type="password" name="password">
-    <label for="passwordConfirmation">password Confirmation</label>
-        <input type="password" name="passwordConfirmation">
-    
-    <button type="submit">Register</button>
+            <button type="submit">Register</button>
+        </div>
     </form>
 </main>
 {% endblock %}
