@@ -193,20 +193,17 @@ router.post('/new', async function (req, res, next) {
             temp = validator.escape(temp);
             return temp;
         }
-        if(title)sanTitle = sanitize(title)
-        if(content)sanContent = sanitize(content)
-
-        let user = await promisePool.query('SELECT * FROM tf03users WHERE name = ?', [req.session.username]);
-        if (!user) {
-            user = await promisePool.query('INSERT INTO tf03users (name) VALUES (?)', [req.session.username]);
-            const userId = user.insertId || user[0][0].id;
-            const [rows] = await promisePool.query('INSERT INTO tf03forum (authorId, title, content) VALUES (?, ?, ?)', [userId, sanTitle, sanContent]);
+        
+        if(title){
+            sanTitle = sanitize(title)
+        }
+        if(content){sanContent = sanitize(content)
+        }
+            const [rows] = await promisePool.query('INSERT INTO tf03forum (authorId, title, content) VALUES (?, ?, ?)', [req.session.userId, sanTitle, sanContent]);
             res.redirect('/forum');
-    }
     } else{
         res.send(errors)
     }
-    res.redirect('/forum');
 });
 
 
