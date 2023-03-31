@@ -61,5 +61,7 @@ Jag fixade till naven så man får olika information om man är inlogad eller in
 Fixa så det går att posta till tabellen, fixa säkerhet i andra områden, om tid fixa man kan gå in i en post så det blir en egen sida.  
 
 ### vad hindra mig
+Hade några problem med att fixa validation med det fixades. 
 
 ### Gjorde i dag
+Har fixat validation, css, test på sidorna, hosting funkar. 

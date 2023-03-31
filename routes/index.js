@@ -31,32 +31,31 @@ router.post('/login', async function (req, res, next) {
         errors.push('Password is Required')
     }
 
-    if(errors.length === 0){
-    const [user] = await promisePool.query('SELECT * FROM tf03users WHERE name = ?', [username]);
+    if (errors.length === 0) {
+        const [user] = await promisePool.query('SELECT * FROM tf03users WHERE name = ?', [username]);
+        if (user.length > 0) {
+            bcrypt.compare(password, user[0].password, function (err, result) {
+                //logga in eller nåt
 
-    if (user.length > 0) {
-        bcrypt.compare(password, user[0].password, function (err, result) {
-            //logga in eller nåt
+                if (result === true) {
+                    // return res.send('Welcome')
+                    req.session.username = username;
+                    req.session.login = true;
+                    req.session.userId = user[0].id;
+                    return res.redirect('/profile');
+                }
 
-            if (result === true) {
-                // return res.send('Welcome')
-                req.session.username = username;
-                req.session.login = true;
-                req.session.userId = user[0].id;
-                return res.redirect('/profile');
-            }
+                else {
+                    return res.redirect('/login')
+                }
 
-            else {
-                return res.redirect('/login')
-            }
-
-        })
+            })
+        } else {
+            return res.redirect('/login')
+        }
     } else {
-        return res.redirect('/login')
+        res.send(errors)
     }
-} else {
-    res.send(errors)
-}
 });
 // Kryptera lössenordet  
 router.get('/crypt/:password', async function (req, res, next) {
@@ -94,20 +93,23 @@ router.post('/register', async function (req, res, next) {
     else if (password !== passwordConfirmation) {
         errors.push('Passwords do not match')
     }
-    if(errors.length === 0){
-    const [user] = await promisePool.query('SELECT name FROM tf03users WHERE name = ?', [username]);
-
-    if (user.length > 0) {
-        return res.send('Username is already taken')
+    if (errors.length === 0) {
+        const [user] = await promisePool.query('SELECT name FROM tf03users WHERE name = ?', [username]);
+        if (validator.isAlphanumeric(username, 'sv-SE')) {
+            if (user.length > 0) {
+                return res.send('Username is already taken')
+            } else {
+                bcrypt.hash(password, 10, async function (err, hash) {
+                    const [creatUser] = await promisePool.query('INSERT INTO tf03users (name, password) VALUES (?, ?)', [username, hash]);
+                    res.redirect('/login')
+                })
+            }
+        } else {
+            errors.push('Username is not allowed')
+        }
     } else {
-        bcrypt.hash(password, 10, async function (err, hash) {
-            const [creatUser] = await promisePool.query('INSERT INTO tf03users (name, password) VALUES (?, ?)', [username, hash]);
-            res.redirect('/login')
-        })
+        res.send(errors)
     }
-} else{
-    res.send(errors)
-}
 });
 
 /* GET profile page. */
@@ -157,7 +159,7 @@ router.post('/delete', async function (req, res, next) {
 });
 // GET forum page
 router.get('/forum', async function (req, res, next) {
-    const [rows] = await promisePool.query("SELECT tf03forum.*, tf03users.name FROM tf03forum JOIN tf03users ON tf03forum.authorId = tf03users.id");
+    const [rows] = await promisePool.query("SELECT tf03forum.*, tf03users.name FROM tf03forum JOIN tf03users ON tf03forum.authorId = tf03users.id ORDER BY createdAt DESC");
     res.render('forum.njk', {
         rows: rows,
         title: 'Forum',
