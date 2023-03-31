@@ -40,15 +40,26 @@ Fixade det dock till slut, men den behövers förbätras
 ### Gjorde i dag 
 Jag fixa valideringen på forument och fixade att man inte kunde post om man var inlogad samt naven ser anurlunda ut om man är inlågad eller inte. 
 
-## vecka 12, 24-03-2023
+## vecka 13, 29-03-2023
 ### vad gjorde jag sist 
 Jag fixa gundlägande validation på forumet och att man inte kunde posta om man var inlogad. Fixade naven så den ändrades när man var inlogad dock funkade inte det. 
 
-### vad gör jag idag 
+### vad gör jag idag
 Ska fixa naven, förbättra validationen så den funka på ett bättre sätt. Fixa informationen på sidan. 
 
 ### vad hindra mig
 Har problem med validator dellen och skicka saker till databasen nu.
 
-### Gjorde i dag 
+### Gjorde i dag
 Fixade naven. validatorn för att skapa en post är mer säker dock kan jag inte skicka saker till tabellen forum. 
+
+## vecka 13, 31-03-2023
+### vad gjorde jag sist 
+Jag fixade till naven så man får olika information om man är inlogad eller inte. Jobbade på validation för att posta, dock kan den nu inte skicka saker till tabellen forum.  
+
+### vad gör jag idag
+Fixa så det går att posta till tabellen, fixa säkerhet i andra områden, om tid fixa man kan gå in i en post så det blir en egen sida.  
+
+### vad hindra mig
+
+### Gjorde i dag
