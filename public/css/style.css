@@ -97,6 +97,12 @@ body {
     display: none;
   }
 }
+.navbar__inner {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  align-items: center;
+}
 .navbar img {
   float: left;
 }
@@ -189,6 +195,11 @@ h2 h3 {
   left: 50%;
   transform: translate(-50%, -50%);
   color: #e5e5e5;
+}
+@media (max-width: 599px) {
+  .centered {
+    display: none;
+  }
 }
 
 .inputStile {
