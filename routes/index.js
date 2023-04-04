@@ -159,7 +159,7 @@ router.post('/delete', async function (req, res, next) {
 });
 // GET forum page
 router.get('/forum', async function (req, res, next) {
-    const [rows] = await promisePool.query("SELECT tf03forum.*, tf03users.name FROM tf03forum JOIN tf03users ON tf03forum.authorId = tf03users.id ORDER BY createdAt DESC");
+    const [rows] = await promisePool.query("SELECT tf03forum.*, tf03users.name FROM tf03forum JOIN tf03users ON tf03forum.authorId = tf03users.id ORDER BY id DESC");
     res.render('forum.njk', {
         rows: rows,
         title: 'Forum',
